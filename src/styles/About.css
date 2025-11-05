@@ -1,0 +1,158 @@
+.about {
+  background-color: black;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  border-top: 1px #f86f6f solid;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: sectionFadeIn 1s ease-out;
+}
+
+#ab {
+  color: aliceblue;
+  font-family: 'Jersey 15', cursive;
+  text-decoration: #f86f6f underline;
+  font-size: 75px;
+  margin-bottom: 60px;
+  text-align: center;
+  text-shadow: 0 0 15px rgba(240, 248, 255, 0.5), 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.me {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.profile-image {
+  flex: 0 0 300px;
+  display: flex;
+  justify-content: center;
+}
+
+#mine {
+  height: 255px;
+  width: 255px;
+  border: 2px solid #11d1dc;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 20px rgba(17, 209, 220, 0.5), 0 0 40px rgba(17, 209, 220, 0.3);
+}
+
+#mine:hover {
+  transform: rotate(360deg);
+  transition: transform 1s ease;
+  box-shadow: 0 0 30px rgba(17, 209, 220, 0.8), 0 0 60px rgba(17, 209, 220, 0.5);
+}
+
+.discr {
+  flex: 1;
+  color: aliceblue;
+  text-align: justify;
+  font-size: 1.2rem;
+  max-width: 600px;
+  line-height: 1.8;
+  text-shadow: 0 0 5px rgba(240, 248, 255, 0.2);
+}
+
+.discr:hover {
+  color: #f86f6f;
+  text-shadow: 0 0 8px rgba(248, 111, 111, 0.3);
+}
+
+#sp {
+  color: #f86f6f;
+  font-weight: bold;
+  text-shadow: 0 0 8px rgba(248, 111, 111, 0.4);
+}
+
+#sp:hover {
+  color: #11d1dc;
+  text-shadow: 0 0 10px rgba(17, 209, 220, 0.6);
+}
+
+.spa {
+  color: #15cfde;
+  font-weight: bold;
+  text-shadow: 0 0 8px rgba(21, 207, 222, 0.4);
+}
+
+.spa:hover {
+  color: aliceblue;
+  text-shadow: 0 0 10px rgba(240, 248, 255, 0.6);
+}
+
+@keyframes sectionFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .me {
+    gap: 30px;
+  }
+
+  #mine {
+    height: 220px;
+    width: 220px;
+  }
+
+  .discr {
+    font-size: 1.1rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #ab {
+    font-size: 50px;
+  }
+
+  .me {
+    flex-direction: column;
+    text-align: center;
+    gap: 30px;
+  }
+
+  .discr {
+    text-align: center;
+    padding: 0 15px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  #ab {
+    font-size: 38px;
+  }
+
+  #mine {
+    height: 180px;
+    width: 180px;
+  }
+
+  .discr {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  #ab {
+    font-size: 32px;
+  }
+
+  #mine {
+    height: 150px;
+    width: 150px;
+  }
+}
