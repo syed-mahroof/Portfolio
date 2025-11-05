@@ -1,4 +1,3 @@
-// src/components/Navbar.jsx
 import React, { useState, useEffect } from 'react'
 import '../styles/Navbar.css'
 
@@ -78,6 +77,9 @@ const Navbar = () => {
 
   return (
     <>
+      {/* Mobile Menu Overlay */}
+      {isMenuOpen && <div className="navbar-overlay" onClick={closeMenu}></div>}
+      
       <nav className={`nav ${isScrolled ? 'scrolled' : ''}`}>
         <div className="nav-content">
           <div className="nav-left">
@@ -90,7 +92,6 @@ const Navbar = () => {
           </div>
 
           <div className={`navbar ${isMenuOpen ? 'active' : ''}`}>
-            <div className="navbar-overlay" onClick={closeMenu}></div>
             <div className="navbar-content">
               <div className="mobile-header">
                 <div className="mobile-logo">
@@ -167,4 +168,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar;
+export default Navbar
