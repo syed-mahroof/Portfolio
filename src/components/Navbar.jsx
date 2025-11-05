@@ -121,7 +121,7 @@ const Navbar = () => {
 
               <div className="mobile-footer">
                 <a 
-                  href="https://drive.google.com/file/d/1pCzJs95gVXa7WeTc51vFkdDJxIRd3jTm/view?usp=sharing" 
+                  href="https://drive.google.com/file/d/1FRAl4Glo2gFqPgSQifkRNRCn4EIu4R2G/view?usp=drive_link" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="mobile-resume-link"
@@ -137,7 +137,7 @@ const Navbar = () => {
 
           <div className="nav-right">
             <a 
-              href="https://drive.google.com/file/d/1pCzJs95gVXa7WeTc51vFkdDJxIRd3jTm/view?usp=sharing" 
+              href="https://drive.google.com/file/d/1FRAl4Glo2gFqPgSQifkRNRCn4EIu4R2G/view?usp=drive_link" 
               target="_blank" 
               rel="noopener noreferrer"
               className="resume-link"
