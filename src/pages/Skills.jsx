@@ -20,8 +20,8 @@ import figmaIcon from '../images/figma(1).png'
 
 const Skills = () => {
   const skills = [
-    { src: htmlIcon, alt: 'HTML' },
-    { src: cssIcon, alt: 'CSS' },
+    { src: htmlIcon, alt: 'HTML5' },
+    { src: cssIcon, alt: 'CSS3' },
     { src: bootstrapIcon, alt: 'Bootstrap' },
     { src: jsIcon, alt: 'JavaScript' },
     { src: pythonIcon, alt: 'Python' },
@@ -41,10 +41,16 @@ const Skills = () => {
 
   return (
     <div className="skills" id="sk-section">
-      <h2 id="sk"><strong>Skills</strong></h2>
+      <div className="section-header">
+        <h2 id="sk"><strong>Skills</strong></h2>
+        <p className="section-subtitle">Technologies I work with</p>
+      </div>
       <div className="sbox">
         {skills.map((skill, index) => (
-          <img key={index} className="skill-icon" src={skill.src} alt={skill.alt} />
+          <div key={index} className="skill-icon-wrapper">
+            <img className="skill-icon" src={skill.src} alt={skill.alt} />
+            <span className="skill-name">{skill.alt}</span>
+          </div>
         ))}
       </div>
     </div>

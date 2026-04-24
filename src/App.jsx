@@ -1,4 +1,6 @@
+// src/App.jsx
 import React from 'react'
+import { ThemeProvider } from './context/ThemeContext'
 import Navbar from './components/Navbar'
 import Hero from './pages/Hero'
 import About from './pages/About'
@@ -11,16 +13,18 @@ import './App.css'
 
 function App() {
   return (
-    <div className="App">
-      <Navbar />
-      <Hero />
-      <About />
-      <Skills />
-      <Projects />
-      <WorkExperience />
-      <Contact />
-      <Footer />
-    </div>
+    <ThemeProvider>
+      <div className="App">
+        <Navbar />
+        <Hero />
+        <About />
+        <Skills />
+        <Projects />
+        <WorkExperience />
+        <Contact />
+        <Footer />
+      </div>
+    </ThemeProvider>
   )
 }
 

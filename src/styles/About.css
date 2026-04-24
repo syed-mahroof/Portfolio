@@ -1,158 +1,226 @@
+/* About.css */
 .about {
-  background-color: black;
+  background-color: var(--bg-primary);
   width: 100%;
   min-height: 100vh;
   position: relative;
-  border-top: 1px #f86f6f solid;
-  padding: 40px 20px;
+  border-top: 1px var(--accent-1) solid;
+  padding: 80px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  animation: sectionFadeIn 1s ease-out;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.section-subtitle {
+  color: var(--text-secondary);
+  font-size: 16px;
+  margin-top: 12px;
+  letter-spacing: 0.5px;
 }
 
 #ab {
-  color: aliceblue;
+  color: var(--text-primary);
   font-family: 'Jersey 15', cursive;
-  text-decoration: #f86f6f underline;
+  text-decoration: var(--accent-1) underline;
   font-size: 75px;
-  margin-bottom: 60px;
+  margin: 0;
   text-align: center;
-  text-shadow: 0 0 15px rgba(240, 248, 255, 0.5), 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 0 20px var(--glow-1);
 }
 
 .me {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 40px;
+  gap: 60px;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
+/* Profile image with rings */
 .profile-image {
-  flex: 0 0 300px;
+  flex: 0 0 auto;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.img-wrapper {
+  position: relative;
+  width: 260px;
+  height: 260px;
 }
 
 #mine {
-  height: 255px;
-  width: 255px;
-  border: 2px solid #11d1dc;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 0 20px rgba(17, 209, 220, 0.5), 0 0 40px rgba(17, 209, 220, 0.3);
+  border: 3px solid var(--accent-1);
+  box-shadow: 0 0 30px var(--glow-1), 0 0 60px var(--glow-2);
+  transition: all 0.6s ease;
+  position: relative;
+  z-index: 2;
 }
 
 #mine:hover {
-  transform: rotate(360deg);
-  transition: transform 1s ease;
-  box-shadow: 0 0 30px rgba(17, 209, 220, 0.8), 0 0 60px rgba(17, 209, 220, 0.5);
+  transform: scale(1.04);
+  box-shadow: 0 0 50px var(--glow-1), 0 0 80px var(--glow-2);
 }
 
+.img-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation: ringPulse 3s ease-in-out infinite;
+}
+
+.ring-1 {
+  width: 290px; height: 290px;
+  border-color: rgba(248,111,111,0.3);
+  animation-delay: 0s;
+}
+
+.ring-2 {
+  width: 320px; height: 320px;
+  border-color: rgba(17,209,220,0.15);
+  animation-delay: 1.5s;
+}
+
+@keyframes ringPulse {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.03); }
+}
+
+.profile-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(46,213,115,0.08);
+  border: 1px solid rgba(46,213,115,0.25);
+  color: #2ed573;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 20px;
+}
+
+.badge-dot {
+  width: 8px; height: 8px;
+  background: #2ed573;
+  border-radius: 50%;
+  animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* Description */
 .discr {
   flex: 1;
-  color: aliceblue;
-  text-align: justify;
-  font-size: 1.2rem;
-  max-width: 600px;
-  line-height: 1.8;
-  text-shadow: 0 0 5px rgba(240, 248, 255, 0.2);
+  color: var(--text-secondary);
+  font-size: 16px;
+  max-width: 580px;
+  line-height: 1.85;
 }
 
-.discr:hover {
-  color: #f86f6f;
-  text-shadow: 0 0 8px rgba(248, 111, 111, 0.3);
-}
+.discr p { margin-bottom: 24px; }
 
 #sp {
-  color: #f86f6f;
+  color: var(--accent-1);
   font-weight: bold;
-  text-shadow: 0 0 8px rgba(248, 111, 111, 0.4);
+  text-shadow: 0 0 8px var(--glow-1);
 }
 
-#sp:hover {
-  color: #11d1dc;
-  text-shadow: 0 0 10px rgba(17, 209, 220, 0.6);
+.highlight-role {
+  color: var(--accent-2);
+  font-weight: 600;
+  text-shadow: 0 0 8px var(--glow-2);
 }
 
 .spa {
-  color: #15cfde;
-  font-weight: bold;
-  text-shadow: 0 0 8px rgba(21, 207, 222, 0.4);
+  color: var(--accent-2);
+  font-weight: 600;
 }
 
-.spa:hover {
-  color: aliceblue;
-  text-shadow: 0 0 10px rgba(240, 248, 255, 0.6);
+/* Stats */
+.about-stats {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-top: 8px;
 }
 
-@keyframes sectionFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 16px 24px;
+  min-width: 90px;
+  transition: all 0.3s ease;
+}
+
+[data-theme="frost"] .stat-item {
+  border-color: rgba(0,0,0,0.08);
+}
+
+.stat-item:hover {
+  border-color: var(--accent-1);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px var(--glow-1);
+}
+
+.stat-num {
+  font-family: 'Jersey 15', cursive;
+  font-size: 32px;
+  color: var(--accent-1);
+  text-shadow: 0 0 10px var(--glow-1);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  text-align: center;
 }
 
 @media screen and (max-width: 992px) {
-  .me {
-    gap: 30px;
-  }
-
-  #mine {
-    height: 220px;
-    width: 220px;
-  }
-
-  .discr {
-    font-size: 1.1rem;
-  }
+  .me { gap: 40px; }
+  .img-wrapper { width: 220px; height: 220px; }
 }
 
 @media screen and (max-width: 768px) {
-  #ab {
-    font-size: 50px;
-  }
-
-  .me {
-    flex-direction: column;
-    text-align: center;
-    gap: 30px;
-  }
-
-  .discr {
-    text-align: center;
-    padding: 0 15px;
-  }
+  #ab { font-size: 50px; }
+  .about { padding: 60px 15px; }
+  .me { flex-direction: column; gap: 40px; }
+  .discr { text-align: center; }
+  .about-stats { justify-content: center; }
+  .ring-1 { width: 250px; height: 250px; }
+  .ring-2 { width: 280px; height: 280px; }
 }
 
 @media screen and (max-width: 576px) {
-  #ab {
-    font-size: 38px;
-  }
-
-  #mine {
-    height: 180px;
-    width: 180px;
-  }
-
-  .discr {
-    font-size: 16px;
-  }
+  #ab { font-size: 38px; }
+  .img-wrapper { width: 190px; height: 190px; }
+  .discr { font-size: 15px; }
 }
 
 @media screen and (max-width: 380px) {
-  #ab {
-    font-size: 32px;
-  }
-
-  #mine {
-    height: 150px;
-    width: 150px;
-  }
+  #ab { font-size: 32px; }
+  .img-wrapper { width: 160px; height: 160px; }
 }

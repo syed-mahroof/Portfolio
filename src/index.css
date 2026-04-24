@@ -1,11 +1,39 @@
-/* src/index.css */
+/* index.css */
 @import url('https://fonts.googleapis.com/css2?family=Jersey+15&display=swap');
+
+/* Default theme variables (cyber — overridden by ThemeContext) */
+:root {
+  --bg-primary: #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-card: #111111;
+  --accent-1: #f86f6f;
+  --accent-2: #11d1dc;
+  --accent-3: #67017a;
+  --text-primary: #f0f8ff;
+  --text-secondary: #aaaaaa;
+  --border-color: #f86f6f;
+  --nav-bg: rgba(10,10,10,0.97);
+  --card-shadow: 0 0 30px rgba(248,111,111,0.1);
+  --glow-1: rgba(248,111,111,0.4);
+  --glow-2: rgba(17,209,220,0.4);
+  --gradient-hero: radial-gradient(ellipse at 20% 50%, rgba(248,111,111,0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 50%, rgba(17,209,220,0.06) 0%, transparent 60%);
+}
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  transition: 0.3s ease;
+}
+
+/* Smooth transitions for theme switching */
+*, *::before, *::after {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* But NOT for transform/position/opacity (breaks animations) */
+.hero-orb, .orb-1, .orb-2, .hamburger-line,
+.nav-icon, .logo-ripple, .card-top-bar {
+  transition: none;
 }
 
 html {
@@ -14,8 +42,24 @@ html {
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Arial, sans-serif;
   overflow-x: hidden;
   line-height: 1.6;
-  background-color: black;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb {
+  background: var(--accent-1);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--accent-2); }
+
+/* Selection */
+::selection {
+  background: var(--accent-1);
+  color: #fff;
 }

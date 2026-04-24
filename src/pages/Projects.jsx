@@ -1,38 +1,64 @@
-import React from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import '../styles/Projects.css'
 
 const Projects = () => {
+  const [visibleCards, setVisibleCards] = useState([])
+  const cardRefs = useRef([])
+
   const projects = [
+    {
+      title: 'SOORATH AUTOS',
+      teamSize: 1,
+      duration: '4 weeks',
+      subtitle: 'Used Car Sales Platform — Full Rebuild',
+      liveLink: 'https://soorathautos.in',
+      repoFront: 'https://github.com/syed-mahroof',
+      repoBack: 'https://github.com/syed-mahroof',
+      isFreelance: true,
+      tech: ['React', 'Django REST', 'PostgreSQL', 'AWS S3', 'JWT', 'Tailwind'],
+      details: [
+        'Architected a fully decoupled modern vehicle marketplace: Django REST Framework JSON API backend + React (Vite) SPA frontend, deployed with Nginx.',
+        'Built a 3D vehicle carousel, Swiper.js gallery, fuzzy vehicle search using PostgreSQL pg_trgm trigram similarity, and WhatsApp inquiry integration.',
+        'Implemented a secure JWT-authenticated admin dashboard for inventory CRUD, gallery image upload to AWS S3, featured/sold toggles, and dashboard stats.',
+        'Added full SEO pipeline with React Helmet, JSON-LD structured data (AutoDealer + Car schemas), Open Graph tags, and canonical URLs.'
+      ]
+    },
     {
       title: 'ANANTA NETHRALAYA',
       teamSize: 1,
       duration: '3 weeks',
-      subtitle: 'Modern Eye Clinic Website (Freelance)',
+      subtitle: 'Eye Care Center Website — Live',
+      liveLink: 'https://www.anantanethralaya.org',
+      isFreelance: true,
+      tech: ['React', 'Tailwind CSS', 'Vite'],
       details: [
-        'Developed a modern, responsive website for Ananta Nethralaya Eye Clinic using React.js and Tailwind CSS as a freelance project.',
+        'Developed a fully responsive, WCAG-aware healthcare website for Ananta Nethralaya Eye Clinic, now live and serving patients online.',
         'Implemented smooth navigation, comprehensive service sections, doctor profiles, image gallery, and an interactive contact form.',
-        'Added scroll-to-top functionality and ensured mobile-first responsive design for optimal user experience across all devices.',
-        'Created a clean, professional interface that effectively showcases the clinic\'s services and builds patient trust and engagement.'
+        'Achieved fast load times and accessibility compliance across all device sizes using React, Tailwind CSS, and Vite.'
       ]
     },
     {
-      title: 'SOORATH AUTOS',
+      title: 'AL AFZAH GROUP',
       teamSize: 2,
-      duration: '4 weeks',
-      subtitle: 'Used Car Sales Platform',
+      duration: '3 weeks',
+      subtitle: 'Qatar Corporate Website — Live',
+      liveLink: 'https://www.al-afzahgroup.com',
+      isFreelance: true,
+      tech: ['React', 'Tailwind CSS', 'Vite'],
       details: [
-        'Developed a full-stack web application using Django (backend) and HTML/CSS/JavaScript (frontend) to digitize operations for Soorath Autos car reselling business.',
-        'Implemented secure OTP authentication, WhatsApp integration for customer support, and automated email/SMS notifications for appointment management.',
-        'Designed an interactive car marketplace with advanced search filters (brand, fuel type, transmission) and real-time inventory updates when vehicles are sold.'
+        'Built the complete frontend for Al Afzah Group WLL, a Qatari construction and MEP company — now live at al-afzahgroup.com.',
+        'Collaborated with backend developers to integrate UI with server-side data, ensuring cross-browser compatibility and responsive design.',
+        'Delivered a professional corporate web presence showcasing the company\'s services, projects, and team.'
       ]
     },
     {
       title: 'POSTGRAM',
       teamSize: 4,
       duration: '1 year',
-      subtitle: 'Cyberbullying detection and prevention Model',
+      subtitle: 'Cyberbullying Detection & Prevention',
+      tech: ['Django', 'Python', 'ML', 'NLP'],
       details: [
-        'Created a comprehensive web application utilizing Django for both front-end and back-end to detect and prevent cyberbullying.',
+        'Created a comprehensive web application using Django for both front-end and back-end to detect and prevent cyberbullying.',
         'Implemented machine learning algorithms for text analysis, achieving high precision and recall in identifying cyberbullying instances.',
         'Designed and integrated a user-friendly interface for real-time monitoring and reporting of cyberbullying incidents.'
       ]
@@ -41,57 +67,101 @@ const Projects = () => {
       title: 'NETFLIX CLONE',
       teamSize: 1,
       duration: '2 weeks',
-      subtitle: 'A Netflix-like web app with hover video previews',
+      subtitle: 'Netflix-like App with Hover Video Previews',
+      tech: ['React', 'Redux Toolkit', 'Django', 'TMDB API', 'Tailwind'],
       details: [
-        'Built a fully functional Netflix-like web application using React.js and Django with hover video previews and full-screen playback.',
-        'Implemented Redux Toolkit for state management and Tailwind CSS for responsive design across mobile, tablet, and desktop.',
-        'Integrated TMDB API for real-time movie data, implemented lazy loading for performance optimization, and added keyboard shortcuts (ESC, SPACE, M) for enhanced user experience.',
-        'Features include tab-based filtering, hero banner, mobile slide-out menu, and smooth animations with fade, scale, and slide effects.'
+        'Built a fully functional Netflix-like web application with hover video previews, full-screen playback, and tab-based filtering.',
+        'Implemented Redux Toolkit for state management; integrated TMDB API for real-time movie data with lazy loading optimization.',
+        'Added keyboard shortcuts (ESC, SPACE, M), hero banner, mobile slide-out menu, and smooth fade/scale/slide animations.'
       ]
     },
     {
       title: 'BOOKICTIONARY',
       teamSize: 1,
       duration: '3 weeks',
-      subtitle: 'An e-commerce website for Books',
+      subtitle: 'E-Commerce Platform for Books',
+      tech: ['Django', 'Bootstrap', 'SQLite3', 'Python'],
       details: [
         'Built an introductory e-commerce platform to learn web development fundamentals.',
         'Utilized HTML, CSS, Bootstrap, JavaScript, Python, Django, and SQLite3 for seamless functionality and design.'
       ]
-    },
-    {
-      title: 'DIGITAL CLOCK',
-      teamSize: 1,
-      duration: '1 week',
-      subtitle: 'A real-time digital clock using React',
-      details: [
-        'Built a real-time digital clock to enhance React.js proficiency and deepen understanding of state management.'
-      ]
     }
   ]
 
+  useEffect(() => {
+    const observers = cardRefs.current.map((ref, i) => {
+      if (!ref) return null
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) setVisibleCards(prev => [...new Set([...prev, i])])
+        },
+        { threshold: 0.1 }
+      )
+      obs.observe(ref)
+      return obs
+    })
+    return () => observers.forEach(obs => obs?.disconnect())
+  }, [])
+
   return (
     <div className="projects" id="projects-section">
-      <h2 id="projects"><strong>Projects</strong></h2>
+      <div className="section-header">
+        <h2 id="projects"><strong>Projects</strong></h2>
+        <p className="section-subtitle">Things I've built and shipped</p>
+      </div>
       <div className="projects-container">
         {projects.map((project, index) => (
-          <div key={index} className="project-card">
+          <div
+            key={index}
+            ref={el => cardRefs.current[index] = el}
+            className={`project-card ${visibleCards.includes(index) ? 'visible' : ''} ${project.isFreelance ? 'freelance-card' : ''}`}
+            style={{ animationDelay: `${(index % 3) * 0.12}s` }}
+          >
+            {project.isFreelance && (
+              <div className="freelance-badge">
+                <i className="fa-solid fa-briefcase"></i> Freelance · Live
+              </div>
+            )}
+
+            <div className="card-top-bar"></div>
             <div className="project-title">{project.title}</div>
             <div className="project-meta">
               <span className="meta-item">
-                <i className="fa-solid fa-users"></i> Team: {project.teamSize}
+                <i className="fa-solid fa-users"></i> {project.teamSize === 1 ? 'Solo' : `Team: ${project.teamSize}`}
               </span>
-              <span className="meta-divider">|</span>
               <span className="meta-item">
                 <i className="fa-solid fa-clock"></i> {project.duration}
               </span>
             </div>
+
             <div className="project-subtitle">{project.subtitle}</div>
+
             <ul className="project-details">
               {project.details.map((detail, idx) => (
                 <li key={idx}>{detail}</li>
               ))}
             </ul>
+
+            <div className="project-tech">
+              {project.tech.map((t, i) => (
+                <span key={i} className="proj-tech-tag">{t}</span>
+              ))}
+            </div>
+
+            {(project.liveLink || project.repoFront) && (
+              <div className="project-links">
+                {project.liveLink && (
+                  <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="proj-link live">
+                    <i className="fa-solid fa-arrow-up-right-from-square"></i> Live Site
+                  </a>
+                )}
+                {project.repoFront && (
+                  <a href={project.repoFront} target="_blank" rel="noopener noreferrer" className="proj-link repo">
+                    <i className="fa-brands fa-github"></i> GitHub
+                  </a>
+                )}
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -99,4 +169,4 @@ const Projects = () => {
   )
 }
 
-export default Projects;
+export default Projects

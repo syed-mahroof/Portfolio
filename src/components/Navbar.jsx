@@ -1,4 +1,6 @@
+// Navbar.jsx
 import React, { useState, useEffect } from 'react'
+import ThemeSwitcher from './ThemeSwitcher'
 import '../styles/Navbar.css'
 
 const Navbar = () => {
@@ -6,15 +8,11 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState('#top')
 
-  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
-      
-      // Update active section based on scroll position
       const sections = ['#top', '#ab-section', '#sk-section', '#projects-section', '#work-section', '#con-section']
       const scrollPosition = window.scrollY + 100
-
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = document.querySelector(sections[i])
         if (section && section.offsetTop <= scrollPosition) {
@@ -23,47 +21,27 @@ const Navbar = () => {
         }
       }
     }
-
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Prevent body scroll when menu is open
   useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
-    }
-    return () => {
-      document.body.style.overflow = 'unset'
-    }
+    document.body.style.overflow = isMenuOpen ? 'hidden' : 'unset'
+    return () => { document.body.style.overflow = 'unset' }
   }, [isMenuOpen])
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
-
-  const closeMenu = () => {
-    setIsMenuOpen(false)
-  }
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
+  const closeMenu = () => setIsMenuOpen(false)
 
   const handleNavClick = (e, targetId) => {
     e.preventDefault()
     closeMenu()
-    
     let targetPosition = 0
     if (targetId !== '#top') {
       const targetElement = document.querySelector(targetId)
-      if (targetElement) {
-        targetPosition = targetElement.offsetTop - 60
-      }
+      if (targetElement) targetPosition = targetElement.offsetTop - 60
     }
-    
-    window.scrollTo({
-      top: targetPosition,
-      behavior: 'smooth'
-    })
+    window.scrollTo({ top: targetPosition, behavior: 'smooth' })
   }
 
   const navItems = [
@@ -77,10 +55,9 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Mobile Menu Overlay */}
       {isMenuOpen && <div className="navbar-overlay" onClick={closeMenu}></div>}
-      
-      <nav className={`nav ${isScrolled ? 'scrolled' : ''}`}>
+
+      <nav className={`nav ${isScrolled ? 'scrolled' : ''} ${isMenuOpen ? 'menu-open' : ''}`}>
         <div className="nav-content">
           <div className="nav-left">
             <a href="#top" onClick={(e) => handleNavClick(e, '#top')} className="logo-link">
@@ -102,12 +79,12 @@ const Navbar = () => {
                   <i className="fa-solid fa-xmark"></i>
                 </button>
               </div>
-              
+
               <ul className="nav-list">
                 {navItems.map((item) => (
                   <li key={item.id} className="nav-item">
-                    <a 
-                      href={item.id} 
+                    <a
+                      href={item.id}
                       onClick={(e) => handleNavClick(e, item.id)}
                       className={`nav-link ${activeSection === item.id ? 'active' : ''}`}
                     >
@@ -120,9 +97,9 @@ const Navbar = () => {
               </ul>
 
               <div className="mobile-footer">
-                <a 
-                  href="https://drive.google.com/file/d/1FRAl4Glo2gFqPgSQifkRNRCn4EIu4R2G/view?usp=drive_link" 
-                  target="_blank" 
+                <a
+                  href="https://drive.google.com/file/d/1FRAl4Glo2gFqPgSQifkRNRCn4EIu4R2G/view?usp=drive_link"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="mobile-resume-link"
                 >
@@ -136,9 +113,10 @@ const Navbar = () => {
           </div>
 
           <div className="nav-right">
-            <a 
-              href="https://drive.google.com/file/d/1FRAl4Glo2gFqPgSQifkRNRCn4EIu4R2G/view?usp=drive_link" 
-              target="_blank" 
+            <ThemeSwitcher />
+            <a
+              href="https://drive.google.com/file/d/1FRAl4Glo2gFqPgSQifkRNRCn4EIu4R2G/view?usp=drive_link"
+              target="_blank"
               rel="noopener noreferrer"
               className="resume-link"
             >
@@ -147,9 +125,9 @@ const Navbar = () => {
                 <span>Resume</span>
               </button>
             </a>
-            
-            <button 
-              className={`menu-toggle ${isMenuOpen ? 'active' : ''}`} 
+
+            <button
+              className={`menu-toggle ${isMenuOpen ? 'active' : ''}`}
               onClick={toggleMenu}
               aria-label="Toggle menu"
               aria-expanded={isMenuOpen}
@@ -161,8 +139,7 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-      
-      {/* Spacer to prevent content jump */}
+
       <div className="nav-spacer"></div>
     </>
   )
