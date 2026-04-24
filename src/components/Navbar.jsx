@@ -98,7 +98,7 @@ const Navbar = () => {
 
               <div className="mobile-footer">
                 <a
-                  href="https://drive.google.com/file/d/1FRAl4Glo2gFqPgSQifkRNRCn4EIu4R2G/view?usp=drive_link"
+                  href="https://drive.google.com/file/d/1pn-We9F-Ud9GJbIbqL7C9CB24C36uUO0/view?usp=sharing"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mobile-resume-link"
@@ -115,7 +115,7 @@ const Navbar = () => {
           <div className="nav-right">
             <ThemeSwitcher />
             <a
-              href="https://drive.google.com/file/d/1FRAl4Glo2gFqPgSQifkRNRCn4EIu4R2G/view?usp=drive_link"
+              href="https://drive.google.com/file/d/1pn-We9F-Ud9GJbIbqL7C9CB24C36uUO0/view?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
               className="resume-link"
