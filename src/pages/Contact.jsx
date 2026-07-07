@@ -1,6 +1,8 @@
 // 
 import React, { useState, useRef } from 'react'
 import emailjs from '@emailjs/browser'
+import ElectricBorder from '../components/ElectricBorder'
+import { useTheme } from '../context/ThemeContext'
 import '../styles/Contact.css'
 import contactImage from '../images/contact.webp'
 
@@ -16,7 +18,12 @@ const EMAILJS_TEMPLATE_ID = 'template_ups0gnw'  // e.g. 'template_xyz789'
 const EMAILJS_PUBLIC_KEY  = '0QgcYmAxLJjtb6X-f'   // e.g. 'abcXYZ123...'
 // ─────────────────────────────────────────────────────────────────────────────
 
+const EB_COLORS = { cyber: '#7df9ff', nebula: '#a78bfa', aurora: '#38f9d7', ember: '#ff6b2b', frost: '#3b82f6' }
+
 const Contact = () => {
+  const { currentTheme } = useTheme()
+  const ebColor = EB_COLORS[currentTheme] || '#7df9ff'
+  const ebChaos = currentTheme === 'cyber' ? 0.14 : currentTheme === 'ember' ? 0.1 : 0.06
   const formRef = useRef()
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' })
   const [status, setStatus] = useState(null) // null | 'sending' | 'success' | 'error'
@@ -72,7 +79,14 @@ const Contact = () => {
           </div>
         </div>
 
-        <div className="cform">
+        <ElectricBorder 
+          className="cform" 
+          color={ebColor} 
+          speed={1} 
+          chaos={ebChaos} 
+          thickness={2} 
+          style={{ borderRadius: 20 }}
+        >
           <form ref={formRef} onSubmit={handleSubmit} noValidate>
             <div className="input-group">
               <i className="fa-solid fa-user"></i>
@@ -141,7 +155,7 @@ const Contact = () => {
               )}
             </button>
           </form>
-        </div>
+        </ElectricBorder>
       </div>
     </div>
   )

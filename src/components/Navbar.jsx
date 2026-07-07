@@ -1,12 +1,14 @@
 // Navbar.jsx
 import React, { useState, useEffect } from 'react'
 import ThemeSwitcher from './ThemeSwitcher'
+import { useUISound } from '../hooks/useUISound'
 import '../styles/Navbar.css'
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState('#top')
+  const { click, swoosh, hover } = useUISound()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,11 +32,12 @@ const Navbar = () => {
     return () => { document.body.style.overflow = 'unset' }
   }, [isMenuOpen])
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
+  const toggleMenu = () => { click(); setIsMenuOpen(!isMenuOpen) }
   const closeMenu = () => setIsMenuOpen(false)
 
   const handleNavClick = (e, targetId) => {
     e.preventDefault()
+    swoosh()
     closeMenu()
     let targetPosition = 0
     if (targetId !== '#top') {
@@ -86,6 +89,7 @@ const Navbar = () => {
                     <a
                       href={item.id}
                       onClick={(e) => handleNavClick(e, item.id)}
+                      onMouseEnter={hover}
                       className={`nav-link ${activeSection === item.id ? 'active' : ''}`}
                     >
                       <i className={`fa-solid ${item.icon} nav-icon`}></i>

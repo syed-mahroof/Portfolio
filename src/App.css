@@ -1,5 +1,72 @@
 /* src/App.css */
-.App {
-  width: 100%;
-  overflow-x: hidden;
+.App { width: 100%; overflow-x: hidden; position: relative; }
+
+/* floating sound toggle */
+.sound-toggle {
+  position: fixed;
+  right: 22px; bottom: 22px;
+  z-index: 900;
+  width: 46px; height: 46px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  color: var(--text-primary);
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+  cursor: none;
+  font-size: 1rem;
+  box-shadow: 0 8px 24px -10px var(--glow-1);
+}
+.sound-toggle:hover { border-color: var(--accent-2); transform: translateY(-2px); }
+.sound-toggle.muted { opacity: .55; }
+@media (hover: none) { .sound-toggle { cursor: pointer; } }
+
+/* ===== theme switcher floating dock — per-theme placement (no nav collisions) ===== */
+.theme-switch-dock { 
+  position: fixed; 
+  z-index: 9999; 
+  top: 10px; 
+  right: 14px; 
+  transform: translateZ(0); 
+}
+
+/* CYBER: terminal bar is ~44px tall; links end before the reserved zone (nav gets padding-right) */
+body[data-theme='cyber'] .theme-switch-dock { top: 7px; right: 12px; }
+
+/* AURORA: glass nav is taller; links also end before reserved zone */
+body[data-theme='aurora'] .theme-switch-dock { top: 13px; right: 16px; }
+
+/* EMBER: burger sits top-right → dock goes to its LEFT with a clear gap
+   burger width 46px + bar padding clamp(1rem,5vw,2.5rem) ≈ 86px max;
+   right:140px gives an 8-12px visual gap at all typical desktop widths */
+body[data-theme='ember'] .theme-switch-dock { top: 12px; right: 140px; }
+
+/* NEBULA: bubble menu is bottom-center → top-right is free */
+body[data-theme='nebula'] .theme-switch-dock { top: 14px; right: 16px; }
+
+/* FROST: side dots on the right edge → keep dock top-LEFT so pips never collide */
+body[data-theme='frost'] .theme-switch-dock { right: auto; left: 16px; top: 14px; }
+
+/* content offset when a top-docked nav is active */
+.App.has-top-nav { padding-top: 56px; }
+
+@media (max-width: 760px) {
+  .App.has-top-nav { padding-top: 50px; }
+  /* mobile: prompt/logo owns the left, burger owns the far right →
+     dock sits just LEFT of the burger with a fixed gap */
+  body[data-theme='cyber'] .theme-switch-dock  { top: 7px;  right: 56px; }
+  body[data-theme='aurora'] .theme-switch-dock { top: 10px; right: 54px; }
+  body[data-theme='ember'] .theme-switch-dock  { top: 10px; right: 80px; }
+  body[data-theme='nebula'] .theme-switch-dock { top: 10px; right: 10px; }
+  /* compact pill on phones: icon-only */
+  .theme-switch-dock .theme-label, .theme-switch-dock .theme-chevron { display: none; }
+  .theme-switch-dock .theme-toggle-btn { padding: 7px 10px; }
+}
+
+/* --- bottom-edge de-confliction for bottom-docked navs --- */
+@media (max-width: 760px) {
+  /* nebula bubble menu + frost pill row own bottom-center → lift sound toggle */
+  body[data-theme='nebula'] .sound-toggle,
+  body[data-theme='frost'] .sound-toggle { bottom: 92px; right: 14px; }
+  .sound-toggle { width: 42px; height: 42px; }
 }

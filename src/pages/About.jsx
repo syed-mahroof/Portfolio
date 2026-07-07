@@ -31,14 +31,14 @@ const About = () => {
             real users and live deployments. I've shipped full-stack projects for clients in Kerala and Qatar,
             and I'm always learning and building.
             <br /><br />
-            <span className="spa">Age</span>: 23<br />
+            <span className="spa">Age</span>: 24<br />
             <span className="spa">Location</span>: Muvattupuzha, Kerala<br />
             <span className="spa">Email</span>: syedmahroof2002@gmail.com<br />
             <span className="spa">Phone</span>: +91 7025195638
           </p>
           <div className="about-stats">
             <div className="stat-item">
-              <span className="stat-num">3+</span>
+              <span className="stat-num">4+</span>
               <span className="stat-label">Live Projects</span>
             </div>
             <div className="stat-item">

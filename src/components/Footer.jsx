@@ -67,6 +67,7 @@ const Footer = () => {
             <li><a href="https://www.anantanethralaya.org" target="_blank" rel="noopener noreferrer"><i className="fa-solid fa-arrow-up-right-from-square"></i> Ananta Nethralaya</a></li>
             <li><a href="https://www.al-afzahgroup.com" target="_blank" rel="noopener noreferrer"><i className="fa-solid fa-arrow-up-right-from-square"></i> Al Afzah Group</a></li>
             <li><a href="https://soorathautos.in" target="_blank" rel="noopener noreferrer"><i className="fa-solid fa-arrow-up-right-from-square"></i> Soorath Autos</a></li>
+            <li><a href="https://headgreen.in" target="_blank" rel="noopener noreferrer"><i className="fa-solid fa-arrow-up-right-from-square"></i> HeadGreen!</a></li>
           </ul>
         </div>
 

@@ -1,0 +1,162 @@
+/* nav.css — styles for all 5 theme navigations (mobile-first) */
+
+/* ============ CYBER — terminal bar ============ */
+.cyber-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 800;
+  display: flex; align-items: center; gap: 1rem;
+  padding: 0.55rem clamp(0.9rem, 3vw, 1.6rem);
+  font-family: var(--font-body);
+  background: var(--nav-bg); backdrop-filter: blur(8px);
+  border-bottom: var(--ui-border-w) solid var(--glass-border);
+  box-shadow: 0 0 22px -6px var(--glow-1);
+}
+.cyber-prompt { color: var(--accent-1); font-size: 0.82rem; white-space: nowrap; }
+.cyber-user { color: var(--accent-2); }
+.cyber-path { color: var(--accent-3); }
+.cyber-dot { display: inline-block; width: 8px; height: 8px; background: var(--accent-1); box-shadow: 0 0 8px var(--accent-1); animation: cyber-blink 1.1s steps(2) infinite; }
+@keyframes cyber-blink { 50% { opacity: 0.2; } }
+.cyber-links { list-style: none; display: flex; gap: 0.35rem; margin-left: auto; padding-right: 118px; }
+.cyber-links a {
+  position: relative; text-decoration: none; color: var(--text-secondary);
+  font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em;
+  padding: 0.3rem 0.5rem;
+}
+.cyber-links a .br { color: var(--accent-1); opacity: 0; transition: opacity .18s; }
+.cyber-links a:hover, .cyber-links a.active { color: var(--accent-1); text-shadow: 0 0 8px var(--glow-1); }
+.cyber-links a:hover .br, .cyber-links a.active .br { opacity: 1; }
+.cyber-burger { display: none; margin-left: auto; background: none; border: var(--ui-border-w) solid var(--accent-1); color: var(--accent-1); width: 34px; height: 30px; font-family: var(--font-body); cursor: pointer; }
+
+@media (max-width: 760px) {
+  .cyber-burger { display: block; }
+  .cyber-links {
+    position: fixed; top: 44px; left: 0; right: 0;
+    flex-direction: column; gap: 0; margin: 0;
+    background: var(--bg-secondary); border-bottom: var(--ui-border-w) solid var(--accent-1);
+    max-height: 0; overflow: hidden; transition: max-height .3s var(--ui-ease);
+  }
+  .cyber-links.open { max-height: 340px; }
+  .cyber-links li { border-top: 1px solid var(--glass-border); }
+  .cyber-links a { display: block; padding: 0.9rem 1.2rem; font-size: 0.95rem; }
+}
+
+/* ============ NEBULA — bubble menu (bottom center) ============ */
+.bubble-menu { position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%); z-index: 800; display: flex; flex-direction: column; align-items: center; gap: 0.8rem; }
+.bubble-items { list-style: none; display: flex; gap: 0.7rem; align-items: center; padding: 0; margin: 0; }
+.bubble-items li { transform-origin: center bottom; }
+.bubble {
+  width: 50px; height: 50px; border-radius: 50%;
+  display: grid; place-items: center; cursor: pointer;
+  background: var(--glass-bg-strong); border: 1px solid var(--glass-border);
+  backdrop-filter: blur(14px); color: var(--text-primary); font-size: 1.05rem;
+  box-shadow: 0 10px 30px -10px var(--glow-1);
+}
+.bubble.active, .bubble:hover { color: #fff; background: var(--grad-brand); border-color: transparent; }
+.bubble-fab {
+  width: 60px; height: 60px; border-radius: 50%; cursor: pointer; color: #fff;
+  background: var(--grad-brand); border: none; font-size: 1.3rem;
+  box-shadow: 0 14px 40px -8px var(--glow-1);
+}
+.bubble-fab.on { transform: rotate(90deg); }
+@media (max-width: 620px) {
+  .bubble-items { display: grid; grid-template-columns: repeat(3, auto); gap: 0.6rem; }
+  .bubble { width: 46px; height: 46px; }
+}
+
+/* ============ AURORA — frosted glass, hide-on-scroll ============ */
+.aurora-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 800;
+  display: flex; align-items: center; gap: 1rem;
+  padding: 0.9rem clamp(1rem, 5vw, 3rem);
+  background: var(--nav-bg); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  transition: transform .5s var(--ui-ease);
+}
+.aurora-nav.hidden { transform: translateY(-110%); }
+.aurora-logo { font-family: var(--font-display); font-weight: 800; font-size: 1.2rem; color: var(--text-primary); text-decoration: none; letter-spacing: -0.02em; }
+.aurora-links { list-style: none; display: flex; gap: 1.6rem; margin-left: auto; padding-right: 126px; }
+.aurora-links a { text-decoration: none; color: var(--text-secondary); font-weight: 500; font-size: 0.95rem; position: relative; }
+.aurora-links a::after { content: ""; position: absolute; left: 0; bottom: -6px; width: 0; height: 2px; background: var(--grad-brand); border-radius: 2px; transition: width .4s var(--ui-ease); }
+.aurora-links a:hover, .aurora-links a.active { color: var(--text-primary); }
+.aurora-links a:hover::after, .aurora-links a.active::after { width: 100%; }
+.aurora-burger { display: none; margin-left: auto; background: none; border: none; color: var(--text-primary); font-size: 1.3rem; cursor: pointer; }
+@media (max-width: 760px) {
+  .aurora-burger { display: block; }
+  .aurora-links {
+    position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; gap: 0; margin: 0;
+    background: var(--bg-secondary); backdrop-filter: blur(20px);
+    max-height: 0; overflow: hidden; transition: max-height .4s var(--ui-ease);
+  }
+  .aurora-links.open { max-height: 360px; }
+  .aurora-links li { border-top: 1px solid var(--glass-border); }
+  .aurora-links a { display: block; padding: 1rem 1.4rem; }
+}
+
+/* ============ EMBER — brutalist bar + slam-down overlay ============ */
+.ember-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 810;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.7rem clamp(1rem, 5vw, 2.5rem);
+  background: var(--bg-primary); border-bottom: var(--ui-border-w) solid var(--accent-1);
+}
+.ember-logo { font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; letter-spacing: -0.03em; text-transform: uppercase; }
+.ember-slash { color: var(--accent-1); }
+.ember-burger { width: 46px; height: 40px; display: flex; flex-direction: column; justify-content: center; gap: 6px; background: var(--accent-1); border: none; cursor: pointer; padding: 0 10px; }
+.ember-burger span { height: 3px; background: #0d0603; transition: transform .25s var(--ui-ease), opacity .2s; }
+.ember-burger.on span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+.ember-burger.on span:nth-child(2) { opacity: 0; }
+.ember-burger.on span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+.ember-overlay {
+  position: fixed; inset: 0; z-index: 805;
+  background: var(--bg-primary);
+  background-image: var(--gradient-hero);
+  display: flex; align-items: center; justify-content: center;
+}
+.ember-overlay ul { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; width: min(90vw, 700px); padding: 0 1.5rem; }
+.ember-overlay button {
+  width: 100%; text-align: left; background: none; border: none; cursor: pointer;
+  font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.02em;
+  font-size: clamp(2rem, 9vw, 4.5rem); color: var(--text-primary);
+  display: flex; align-items: baseline; gap: 1rem; line-height: 1.05;
+  border-bottom: var(--ui-border-w) solid transparent;
+}
+.ember-overlay button:hover, .ember-overlay button.active { color: var(--accent-1); border-bottom-color: var(--accent-1); }
+.ember-num { font-size: 0.9rem; color: var(--accent-2); font-weight: 700; }
+
+/* ============ FROST — side dot tracker ============ */
+.frost-dots {
+  position: fixed; right: 22px; top: 50%; transform: translateY(-50%); z-index: 800;
+  display: flex; flex-direction: column; gap: 1rem;
+}
+.frost-dot {
+  position: relative; width: 12px; height: 12px; border-radius: 50%; cursor: pointer;
+  background: transparent; border: 2px solid var(--text-secondary); padding: 0;
+  transition: all .35s var(--ui-ease);
+}
+.frost-dot.active { border-color: var(--accent-1); background: var(--accent-1); box-shadow: 0 0 0 4px var(--glow-1); }
+.frost-dot-label {
+  position: absolute; right: 22px; top: 50%; transform: translateY(-50%) translateX(6px);
+  opacity: 0; pointer-events: none; white-space: nowrap;
+  font-size: 0.72rem; font-weight: 600; color: var(--text-primary);
+  background: var(--bg-card); border: 1px solid var(--glass-border);
+  padding: 0.25rem 0.6rem; border-radius: 6px; transition: opacity .3s, transform .3s;
+}
+.frost-dot:hover .frost-dot-label { opacity: 1; transform: translateY(-50%) translateX(0); }
+@media (max-width: 760px) {
+  .frost-dots {
+    right: 50%; top: auto; bottom: 16px; transform: translateX(50%);
+    flex-direction: row; gap: 0.7rem;
+    background: var(--nav-bg); backdrop-filter: blur(14px);
+    padding: 0.6rem 0.9rem; border-radius: 100px; border: 1px solid var(--glass-border);
+  }
+  .frost-dot-label { display: none; }
+}
+
+/* --- mobile: drop desktop dock reservations --- */
+@media (max-width: 760px) {
+  .cyber-links { padding-right: 0; }
+  .aurora-links { padding-right: 0; }
+}
+/* Frost: pips already avoid top; nothing needed */
+@media (max-width: 420px) {
+  .cyber-user { display: none; }   /* keep dot + ~$ only on tiny screens */
+}

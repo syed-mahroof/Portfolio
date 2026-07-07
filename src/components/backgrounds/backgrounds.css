@@ -1,0 +1,81 @@
+/* backgrounds.css — fixed, behind-content theme backgrounds */
+.themed-bg, .bg-layer, .bg-canvas { position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden; }
+.themed-bg { background: var(--bg-primary); }
+
+/* ---- Cyber matrix ---- */
+.bg-canvas { display: block; }
+
+/* ---- Nebula ---- */
+.nebula-bg { background: radial-gradient(circle at 50% 40%, #0a0a18 0%, var(--bg-primary) 70%); }
+.nebula-stars { position: absolute; inset: 0; background-image: radial-gradient(1px 1px at 20% 30%, #fff, transparent), radial-gradient(1px 1px at 70% 60%, #cbd5ff, transparent), radial-gradient(1.5px 1.5px at 40% 80%, #fff, transparent), radial-gradient(1px 1px at 85% 20%, #e0e7ff, transparent); background-size: 260px 260px; opacity: 0.5; animation: nebula-twinkle 6s ease-in-out infinite; }
+@keyframes nebula-twinkle { 50% { opacity: 0.85; } }
+.nebula-orbs .ambient-orb { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.5; }
+.ambient-orb.a { width: 46vw; height: 46vw; top: -8vw; left: -6vw; background: radial-gradient(circle, var(--accent-1), transparent 70%); animation: floatA 22s ease-in-out infinite; }
+.ambient-orb.b { width: 40vw; height: 40vw; bottom: -10vw; right: -6vw; background: radial-gradient(circle, var(--accent-3), transparent 70%); animation: floatB 27s ease-in-out infinite; }
+.ambient-orb.c { width: 30vw; height: 30vw; top: 40%; left: 55%; background: radial-gradient(circle, var(--accent-2), transparent 70%); opacity: 0.32; animation: floatC 34s ease-in-out infinite; }
+@keyframes floatA { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(6vw,4vw) scale(1.12)} }
+@keyframes floatB { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-5vw,-3vw) scale(1.08)} }
+@keyframes floatC { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-4vw,3vw) scale(1.1)} 66%{transform:translate(3vw,-4vw) scale(0.95)} }
+
+/* ---- Aurora mesh ---- */
+.aurora-bg { background: var(--bg-primary); }
+.aurora-band { position: absolute; width: 140%; height: 60%; left: -20%; filter: blur(70px); opacity: 0.4; border-radius: 50%; mix-blend-mode: screen; }
+.aurora-band.b1 { top: -10%; background: radial-gradient(ellipse, var(--accent-1), transparent 60%); animation: aurora-flow 16s ease-in-out infinite; }
+.aurora-band.b2 { top: 25%; background: radial-gradient(ellipse, var(--accent-3), transparent 60%); animation: aurora-flow 21s ease-in-out infinite reverse; }
+.aurora-band.b3 { bottom: -10%; background: radial-gradient(ellipse, var(--accent-2), transparent 60%); animation: aurora-flow 26s ease-in-out infinite; }
+@keyframes aurora-flow { 0%,100%{transform:translateX(-6%) translateY(0) scaleY(1)} 50%{transform:translateX(6%) translateY(-6%) scaleY(1.2)} }
+
+/* ---- Ember ---- */
+.ember-bg-layer { background: var(--bg-primary); }
+.ember-grid { position: absolute; inset: 0; background-image: linear-gradient(var(--glass-border) 1px, transparent 1px), linear-gradient(90deg, var(--glass-border) 1px, transparent 1px); background-size: 64px 64px; opacity: 0.5; }
+.ember-glow { position: absolute; inset: 0; background: var(--gradient-hero); animation: ember-pulse 5s ease-in-out infinite; }
+@keyframes ember-pulse { 50% { opacity: 0.7; } }
+
+/* ---- Frost ---- */
+.frost-bg { background: var(--bg-primary); }
+.frost-grid-lines { position: absolute; inset: 0; background-image: linear-gradient(rgba(15,23,42,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,0.04) 1px, transparent 1px); background-size: 40px 40px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .nebula-stars, .aurora-band, .ember-glow, .ambient-orb { animation: none !important; }
+}
+/* lighten heavy blur on small screens */
+@media (max-width: 640px) {
+  .aurora-band { filter: blur(45px); }
+  .nebula-orbs .ambient-orb { filter: blur(50px); }
+}
+
+/* ---- CyberGrid (Cyber v2 — clean horizon grid) ---- */
+.cybergrid-bg { background: var(--bg-primary); }
+.cg-glow { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.35; }
+.cg-glow-coral { width: 55vw; height: 42vw; left: -12vw; top: 8vh; background: radial-gradient(circle, rgba(248,111,111,0.55), transparent 70%); animation: cg-breathe 11s ease-in-out infinite; }
+.cg-glow-cyan  { width: 48vw; height: 40vw; right: -10vw; bottom: -6vh; background: radial-gradient(circle, rgba(17,209,220,0.45), transparent 70%); animation: cg-breathe 14s ease-in-out infinite reverse; }
+@keyframes cg-breathe { 50% { opacity: 0.55; transform: scale(1.08); } }
+
+/* perspective floor — grid recedes to a glowing horizon */
+.cg-floor {
+  position: absolute; left: -25%; right: -25%; bottom: -12%; height: 62%;
+  transform: perspective(620px) rotateX(62deg);
+  transform-origin: center top;
+  background-image:
+    linear-gradient(rgba(248,111,111,0.16) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, rgba(17,209,220,0.13) 1.5px, transparent 1.5px);
+  background-size: 56px 56px;
+  animation: cg-glide 3.2s linear infinite;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 32%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 32%);
+}
+@keyframes cg-glide { to { background-position: 0 56px, 0 0; } }
+
+/* one slow, faint scanline */
+.cg-scanline {
+  position: absolute; left: 0; right: 0; height: 120px; top: -140px;
+  background: linear-gradient(to bottom, transparent, rgba(17,209,220,0.05) 50%, transparent);
+  animation: cg-scan 9s linear infinite;
+}
+@keyframes cg-scan { to { transform: translateY(calc(100vh + 280px)); } }
+
+/* vignette keeps center content zone darkest = max text contrast */
+.cg-vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 42%, transparent 30%, rgba(0,0,0,0.55) 100%); }
+
+@media (prefers-reduced-motion: reduce) { .cg-floor, .cg-scanline, .cg-glow { animation: none; } }
+@media (max-width: 640px) { .cg-glow { filter: blur(60px); } .cg-floor { background-size: 42px 42px; } }

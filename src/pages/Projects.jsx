@@ -1,169 +1,190 @@
-import React, { useRef, useEffect, useState } from 'react'
+// Projects.jsx — pinned horizontal showcase for the 3 heavy-hitters + secondary grid
+import React, { useRef, useState, useEffect } from 'react'
+import { motion, useScroll, useTransform, useSpring, useReducedMotion } from 'framer-motion'
+import { useUISound } from '../hooks/useUISound'
 import '../styles/Projects.css'
 
+const topProjects = [
+  {
+    title: 'TaskFlow',
+    subtitle: 'Task & Project Management System',
+    blurb: 'Real-time collaborative workspace with drag-and-drop kanban, live notifications and background job processing.',
+    tech: ['React', 'Django REST', 'PostgreSQL', 'Redis', 'Celery', 'WebSockets', 'AWS S3', 'JWT'],
+    details: [
+      'Built a drag-and-drop kanban board with optimistic UI and JWT-secured multi-user boards.',
+      'Wired real-time notifications over Django Channels + WebSockets so team updates land instantly.',
+      'Offloaded heavy work (emails, exports, reminders) to Celery + Redis background workers.',
+      'Stored attachments on AWS S3 with signed URLs and role-based access control.'
+    ],
+    links: [
+      { label: 'Backend', href: 'https://github.com/MaCo-Labs/taskflow_backend', icon: 'fa-github', type: 'repo' },
+      { label: 'Frontend', href: 'https://github.com/MaCo-Labs/taskflow_frontend', icon: 'fa-github', type: 'repo' }
+    ]
+  },
+  {
+    title: "Driver's Diary",
+    subtitle: 'Cab Management Platform',
+    blurb: 'Multi-role Admin / Driver PWA with offline capability and one-click automated payroll.',
+    tech: ['React', 'Django REST', 'PostgreSQL', 'Openpyxl', 'JWT'],
+    details: [
+      'Shipped a multi-role Admin/Driver PWA with installable, offline-first capabilities.',
+      'Boosted dashboard query performance 40% using composite PostgreSQL indexes.',
+      'Automated payroll with Openpyxl-generated Excel reports straight from trip data.',
+      'Secured every role boundary with JWT auth and granular permissions.'
+    ],
+    links: [
+      { label: 'Live', href: 'https://headgreen.in', icon: 'fa-arrow-up-right-from-square', type: 'live' },
+      { label: 'Backend', href: 'https://github.com/syed-mahroof/Driver-s-Diary-Backend-', icon: 'fa-github', type: 'repo' },
+      { label: 'Frontend', href: 'https://github.com/syed-mahroof/Driver-s-Diary-Frontend-', icon: 'fa-github', type: 'repo' }
+    ]
+  },
+  {
+    title: 'Soorath Autos',
+    subtitle: 'Used Car Dealership Platform',
+    blurb: 'Production vehicle marketplace with advanced filtering and a secure admin dashboard.',
+    tech: ['Django REST', 'React', 'PostgreSQL', 'AWS S3', 'JWT'],
+    details: [
+      'Rebuilt a fully decoupled marketplace: Django REST API + React (Vite) SPA behind Nginx.',
+      'Implemented advanced multi-facet filtering and PostgreSQL trigram fuzzy search.',
+      'Delivered a JWT-secured admin dashboard for inventory CRUD with AWS S3 image uploads.',
+      'Added a full SEO pipeline: JSON-LD structured data, Open Graph and canonical URLs.'
+    ],
+    links: [
+      { label: 'Live', href: 'https://soorathautos.in', icon: 'fa-arrow-up-right-from-square', type: 'live' }
+    ]
+  }
+]
+
+const moreProjects = [
+  { title: 'Ananta Nethralaya', subtitle: 'Eye Care Center Website', tech: ['React', 'Tailwind', 'Vite'], link: 'https://www.anantanethralaya.org' },
+  { title: 'Al Afzah Group', subtitle: 'Qatar Corporate Website', tech: ['React', 'Tailwind', 'Vite'], link: 'https://www.al-afzahgroup.com' },
+  { title: 'HeadGreen!', subtitle: 'Solar-charged EV fleet & cab mobility platform', tech: ['React', 'Vanilla CSS', 'Vite'], link: 'https://headgreen.in' },
+  { title: 'Netflix Clone', subtitle: 'Streaming UI w/ hover previews', tech: ['React', 'Redux', 'TMDB API'], link: 'https://github.com/syed-mahroof' },
+  { title: 'Postgram', subtitle: 'Cyberbullying Detection (ML/NLP)', tech: ['Django', 'Python', 'ML'], link: 'https://github.com/syed-mahroof' }
+]
+
+const EASE = [0.16, 1, 0.3, 1]
+
+const ProjectPanel = ({ p, index }) => {
+  const { click, hover } = useUISound()
+  return (
+    <div className="proj-panel glass glass-glow glass-card">
+      <span className="proj-index metric">0{index + 1}</span>
+      <div className="proj-panel-body">
+        <div className="proj-head">
+          <h3 className="proj-title">{p.title}</h3>
+          <p className="proj-subtitle">{p.subtitle}</p>
+        </div>
+        <p className="proj-blurb">{p.blurb}</p>
+        <ul className="proj-details">
+          {p.details.map((d, i) => <li key={i}>{d}</li>)}
+        </ul>
+        <div className="proj-tech">
+          {p.tech.map((t, i) => <span className="proj-tech-tag" key={i}>{t}</span>)}
+        </div>
+        <div className="proj-links">
+          {p.links.map((l, i) => (
+            <a key={i} href={l.href} target="_blank" rel="noopener noreferrer"
+               className={`proj-link ${l.type}`} onClick={click} onMouseEnter={hover}>
+              <i className={`fa-solid ${l.icon === 'fa-github' ? '' : l.icon}`}></i>
+              <i className={l.icon === 'fa-github' ? 'fa-brands fa-github' : ''}></i>
+              {l.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const Projects = () => {
-  const [visibleCards, setVisibleCards] = useState([])
-  const cardRefs = useRef([])
+  const trackWrapRef = useRef(null)
+  const trackRef = useRef(null)
+  const [distance, setDistance] = useState(0)
+  const [pinned, setPinned] = useState(true)
 
-  const projects = [
-    {
-      title: 'SOORATH AUTOS',
-      teamSize: 1,
-      duration: '4 weeks',
-      subtitle: 'Used Car Sales Platform — Full Rebuild',
-      liveLink: 'https://soorathautos.in',
-      repoFront: 'https://github.com/syed-mahroof',
-      repoBack: 'https://github.com/syed-mahroof',
-      isFreelance: true,
-      tech: ['React', 'Django REST', 'PostgreSQL', 'AWS S3', 'JWT', 'Tailwind'],
-      details: [
-        'Architected a fully decoupled modern vehicle marketplace: Django REST Framework JSON API backend + React (Vite) SPA frontend, deployed with Nginx.',
-        'Built a 3D vehicle carousel, Swiper.js gallery, fuzzy vehicle search using PostgreSQL pg_trgm trigram similarity, and WhatsApp inquiry integration.',
-        'Implemented a secure JWT-authenticated admin dashboard for inventory CRUD, gallery image upload to AWS S3, featured/sold toggles, and dashboard stats.',
-        'Added full SEO pipeline with React Helmet, JSON-LD structured data (AutoDealer + Car schemas), Open Graph tags, and canonical URLs.'
-      ]
-    },
-    {
-      title: 'ANANTA NETHRALAYA',
-      teamSize: 1,
-      duration: '3 weeks',
-      subtitle: 'Eye Care Center Website — Live',
-      liveLink: 'https://www.anantanethralaya.org',
-      isFreelance: true,
-      tech: ['React', 'Tailwind CSS', 'Vite'],
-      details: [
-        'Developed a fully responsive, WCAG-aware healthcare website for Ananta Nethralaya Eye Clinic, now live and serving patients online.',
-        'Implemented smooth navigation, comprehensive service sections, doctor profiles, image gallery, and an interactive contact form.',
-        'Achieved fast load times and accessibility compliance across all device sizes using React, Tailwind CSS, and Vite.'
-      ]
-    },
-    {
-      title: 'AL AFZAH GROUP',
-      teamSize: 2,
-      duration: '3 weeks',
-      subtitle: 'Qatar Corporate Website — Live',
-      liveLink: 'https://www.al-afzahgroup.com',
-      isFreelance: true,
-      tech: ['React', 'Tailwind CSS', 'Vite'],
-      details: [
-        'Built the complete frontend for Al Afzah Group WLL, a Qatari construction and MEP company — now live at al-afzahgroup.com.',
-        'Collaborated with backend developers to integrate UI with server-side data, ensuring cross-browser compatibility and responsive design.',
-        'Delivered a professional corporate web presence showcasing the company\'s services, projects, and team.'
-      ]
-    },
-    {
-      title: 'POSTGRAM',
-      teamSize: 4,
-      duration: '1 year',
-      subtitle: 'Cyberbullying Detection & Prevention',
-      tech: ['Django', 'Python', 'ML', 'NLP'],
-      details: [
-        'Created a comprehensive web application using Django for both front-end and back-end to detect and prevent cyberbullying.',
-        'Implemented machine learning algorithms for text analysis, achieving high precision and recall in identifying cyberbullying instances.',
-        'Designed and integrated a user-friendly interface for real-time monitoring and reporting of cyberbullying incidents.'
-      ]
-    },
-    {
-      title: 'NETFLIX CLONE',
-      teamSize: 1,
-      duration: '2 weeks',
-      subtitle: 'Netflix-like App with Hover Video Previews',
-      tech: ['React', 'Redux Toolkit', 'Django', 'TMDB API', 'Tailwind'],
-      details: [
-        'Built a fully functional Netflix-like web application with hover video previews, full-screen playback, and tab-based filtering.',
-        'Implemented Redux Toolkit for state management; integrated TMDB API for real-time movie data with lazy loading optimization.',
-        'Added keyboard shortcuts (ESC, SPACE, M), hero banner, mobile slide-out menu, and smooth fade/scale/slide animations.'
-      ]
-    },
-    {
-      title: 'BOOKICTIONARY',
-      teamSize: 1,
-      duration: '3 weeks',
-      subtitle: 'E-Commerce Platform for Books',
-      tech: ['Django', 'Bootstrap', 'SQLite3', 'Python'],
-      details: [
-        'Built an introductory e-commerce platform to learn web development fundamentals.',
-        'Utilized HTML, CSS, Bootstrap, JavaScript, Python, Django, and SQLite3 for seamless functionality and design.'
-      ]
-    }
-  ]
+  const shouldReduceMotion = useReducedMotion()
 
+  // measure how far the horizontal track must travel
   useEffect(() => {
-    const observers = cardRefs.current.map((ref, i) => {
-      if (!ref) return null
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) setVisibleCards(prev => [...new Set([...prev, i])])
-        },
-        { threshold: 0.1 }
-      )
-      obs.observe(ref)
-      return obs
-    })
-    return () => observers.forEach(obs => obs?.disconnect())
-  }, [])
+    let timeoutId;
+    const measure = () => {
+      clearTimeout(timeoutId)
+      timeoutId = setTimeout(() => {
+        const wide = window.matchMedia('(min-width: 860px)').matches
+        setPinned(wide && !shouldReduceMotion)
+        if (trackRef.current) {
+          setDistance(Math.max(0, trackRef.current.scrollWidth - window.innerWidth))
+        }
+      }, 150)
+    }
+    measure()
+    window.addEventListener('resize', measure)
+    return () => {
+      window.removeEventListener('resize', measure)
+      clearTimeout(timeoutId)
+    }
+  }, [shouldReduceMotion])
+
+  const { scrollYProgress } = useScroll({ target: trackWrapRef, offset: ['start start', 'end end'] })
+  const rawX = useTransform(scrollYProgress, [0, 1], [0, -distance])
+  const x = useSpring(rawX, { stiffness: 90, damping: 22, mass: 0.5 })
+  const progressWidth = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
 
   return (
     <div className="projects" id="projects-section">
       <div className="section-header">
-        <h2 id="projects"><strong>Projects</strong></h2>
-        <p className="section-subtitle">Things I've built and shipped</p>
+        <span className="eyebrow">Selected Work</span>
+        <h2 id="projects"><strong>Production <span className="gradient-text">Projects</span></strong></h2>
+        <p className="section-subtitle">Three heavy-hitters shipped to real users — scroll to move through them.</p>
       </div>
-      <div className="projects-container">
-        {projects.map((project, index) => (
-          <div
-            key={index}
-            ref={el => cardRefs.current[index] = el}
-            className={`project-card ${visibleCards.includes(index) ? 'visible' : ''} ${project.isFreelance ? 'freelance-card' : ''}`}
-            style={{ animationDelay: `${(index % 3) * 0.12}s` }}
-          >
-            {project.isFreelance && (
-              <div className="freelance-badge">
-                <i className="fa-solid fa-briefcase"></i> Freelance · Live
-              </div>
-            )}
 
-            <div className="card-top-bar"></div>
-            <div className="project-title">{project.title}</div>
-            <div className="project-meta">
-              <span className="meta-item">
-                <i className="fa-solid fa-users"></i> {project.teamSize === 1 ? 'Solo' : `Team: ${project.teamSize}`}
-              </span>
-              <span className="meta-item">
-                <i className="fa-solid fa-clock"></i> {project.duration}
-              </span>
-            </div>
-
-            <div className="project-subtitle">{project.subtitle}</div>
-
-            <ul className="project-details">
-              {project.details.map((detail, idx) => (
-                <li key={idx}>{detail}</li>
-              ))}
-            </ul>
-
-            <div className="project-tech">
-              {project.tech.map((t, i) => (
-                <span key={i} className="proj-tech-tag">{t}</span>
-              ))}
-            </div>
-
-            {(project.liveLink || project.repoFront) && (
-              <div className="project-links">
-                {project.liveLink && (
-                  <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="proj-link live">
-                    <i className="fa-solid fa-arrow-up-right-from-square"></i> Live Site
-                  </a>
-                )}
-                {project.repoFront && (
-                  <a href={project.repoFront} target="_blank" rel="noopener noreferrer" className="proj-link repo">
-                    <i className="fa-brands fa-github"></i> GitHub
-                  </a>
-                )}
-              </div>
-            )}
+      {pinned ? (
+        <section
+          className="pin-wrap"
+          ref={trackWrapRef}
+          style={{ height: `${Math.max(distance, 1) + window.innerHeight}px` }}
+        >
+          <div className="pin-sticky">
+            <motion.div className="pin-track" ref={trackRef} style={{ x }}>
+              {topProjects.map((p, i) => <ProjectPanel key={i} p={p} index={i} />)}
+            </motion.div>
+            <div className="pin-progress"><motion.span style={{ width: progressWidth }} /></div>
           </div>
-        ))}
+        </section>
+      ) : (
+        <div className="pin-track stacked" ref={trackRef}>
+          {topProjects.map((p, i) => (
+            <motion.div key={i}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.7, ease: EASE }}>
+              <ProjectPanel p={p} index={i} />
+            </motion.div>
+          ))}
+        </div>
+      )}
+
+      <div className="more-projects">
+        <h3 className="more-title">More builds</h3>
+        <div className="more-grid">
+          {moreProjects.map((m, i) => (
+            <motion.a key={i} href={m.link} target="_blank" rel="noopener noreferrer"
+              className="more-card glass glass-card"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.55, ease: EASE, delay: (i % 4) * 0.06 }}>
+              <div className="more-head">
+                <h4>{m.title}</h4>
+                <i className="fa-solid fa-arrow-up-right-from-square"></i>
+              </div>
+              <p className="more-sub">{m.subtitle}</p>
+              <div className="more-tech">{m.tech.map((t, j) => <span key={j}>{t}</span>)}</div>
+            </motion.a>
+          ))}
+        </div>
       </div>
     </div>
   )

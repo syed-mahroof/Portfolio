@@ -1,128 +1,117 @@
-import React, { useRef, useEffect, useState } from 'react'
+// WorkExperience.jsx — living SVG timeline that draws to scroll position
+import React, { useRef } from 'react'
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import '../styles/WorkExperience.css'
 
+const experiences = [
+  {
+    title: 'Junior Backend Developer (Python)',
+    company: 'Al Imtedad Solutions',
+    location: 'Trivandrum, Kerala',
+    duration: 'Dec 2025 – Apr 2026',
+    badge: '🟢 Recent',
+    statusColor: 'green',
+    description: [
+      'Built 6+ admin modules with full CRUD backing IPTV / Digital Signage content operations.',
+      'Designed and integrated IPTV / EPG endpoints, verifying schedule and channel payloads on target devices.',
+      'Drove a 25% defect reduction through systematic Postman regression testing across all endpoints.',
+      'Delivered fixes inside Agile sprint timelines, pairing with senior developers on backend debugging.'
+    ],
+    tech: ['Python', 'Django', 'REST API', 'IPTV / EPG', 'Postman', 'Agile']
+  },
+  {
+    title: 'IT Support Engineer',
+    company: 'Safecare Technology',
+    location: 'Muvattupuzha, Kerala',
+    duration: 'May 2025 – Nov 2025',
+    badge: '⚪ Completed',
+    statusColor: 'gray',
+    description: [
+      'Maintained 99% hospital software uptime across multiple departments and daily clinical workflows.',
+      'Cut average resolution time by 30% by building repeatable, automated troubleshooting playbooks.',
+      'Ran system monitoring, scheduled backups and issue documentation for faster future recovery.'
+    ],
+    tech: ['System Support', 'Automation', 'Monitoring', 'Networking', 'Documentation']
+  },
+  {
+    title: 'Full-Stack Web Developer (Freelance)',
+    company: 'Remote / Multi-Client',
+    location: 'Remote',
+    duration: '2025 – Present',
+    badge: '🔵 Ongoing',
+    statusColor: 'blue',
+    description: [
+      "Built Driver's Diary PWA — a multi-role Admin/Driver platform with offline capability and automated payroll.",
+      'Achieved 40% dashboard query performance gains using composite PostgreSQL indexes.',
+      'Decoupled and rebuilt Soorath Autos on Django REST + React, deployed with AWS S3 and Nginx.',
+      'Shipped JWT auth, role-based access and full SEO pipelines across production client projects.'
+    ],
+    tech: ['React', 'Django REST', 'PostgreSQL', 'AWS S3', 'Nginx', 'JWT']
+  }
+]
+
+const EASE = [0.16, 1, 0.3, 1]
+
+const TimelineNode = ({ exp, index }) => {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 85%', 'center 55%'] })
+  const glow = useTransform(scrollYProgress, [0, 1], [0, 1])
+  const side = index % 2 === 0 ? 'left' : 'right'
+
+  return (
+    <div className={`tl-row ${side}`} ref={ref}>
+      <motion.span className="tl-node" style={{ scale: useTransform(glow, [0, 1], [0.6, 1]), opacity: useTransform(glow, [0, 1], [0.35, 1]) }}>
+        <motion.span className="tl-node-aura" style={{ opacity: glow, scale: useTransform(glow, [0, 1], [0.5, 1.8]) }} />
+      </motion.span>
+
+      <motion.article
+        className="exp-card glass glass-glow glass-card"
+        initial={{ opacity: 0, y: 40, x: side === 'left' ? -30 : 30 }}
+        whileInView={{ opacity: 1, y: 0, x: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.7, ease: EASE }}
+      >
+        <header className="exp-header">
+          <div>
+            <h3 className="exp-title">{exp.title}</h3>
+            <div className="exp-company"><i className="fa-solid fa-building"></i> {exp.company}</div>
+            <div className="exp-location"><i className="fa-solid fa-location-dot"></i> {exp.location}</div>
+          </div>
+          <div className="exp-meta-right">
+            <span className={`status-badge status-${exp.statusColor}`}>{exp.badge}</span>
+            <div className="exp-duration"><i className="fa-solid fa-calendar"></i> {exp.duration}</div>
+          </div>
+        </header>
+        <ul className="exp-details">
+          {exp.description.map((d, i) => <li key={i}>{d}</li>)}
+        </ul>
+        <div className="exp-tech">
+          {exp.tech.map((t, i) => <span key={i} className="exp-tech-tag">{t}</span>)}
+        </div>
+      </motion.article>
+    </div>
+  )
+}
+
 const WorkExperience = () => {
-  const [visibleCards, setVisibleCards] = useState([])
-  const cardRefs = useRef([])
-
-  const experiences = [
-    {
-      title: 'Trainee Backend Developer (Python)',
-      company: 'Al Imtedad Solutions',
-      location: 'Trivandrum, Kerala',
-      duration: 'Dec 2025 – Present',
-      status: 'Current',
-      statusColor: 'green',
-      badge: '🟢 Active',
-      description: [
-        'Developed and maintained backend admin modules for IPTV and Digital Signage platforms, supporting day-to-day content management operations.',
-        'Integrated REST APIs with TV front-end UIs, verifying that channel data, digital signage content, and schedule payloads rendered correctly on target display devices.',
-        'Conducted API testing using Postman to verify request/response accuracy, status codes, and payload structure across all exposed endpoints.',
-        'Performed manual functional and regression testing on backend modules, identifying and documenting defects before production release.',
-        'Collaborated with senior developers to debug backend issues and deliver fixes within defined sprint timelines.'
-      ],
-      tech: ['Python', 'Django', 'REST API', 'Postman', 'IPTV']
-    },
-    {
-      title: 'IT Support Engineer',
-      company: 'Safecare Technology',
-      location: 'Muvattupuzha, Kerala',
-      duration: 'May 2025 – Nov 2025',
-      status: 'Completed',
-      statusColor: 'gray',
-      badge: '⚪ Completed',
-      description: [
-        'Provided IT support for hospital management software across multiple departments, maintaining uninterrupted daily operations.',
-        'Diagnosed and resolved system and application issues, reducing downtime and ensuring workflow continuity.',
-        'Assisted in system monitoring, scheduled backups, and issue documentation to enable faster future resolutions.'
-      ],
-      tech: ['IT Support', 'Hardware', 'Networking', 'Documentation']
-    },
-    {
-      title: 'Full Stack Web Developer',
-      company: 'Freelance',
-      location: 'Remote',
-      duration: '2024 – Present',
-      status: 'Ongoing',
-      statusColor: 'blue',
-      badge: '🔵 Ongoing',
-      description: [
-        'Architected and delivered Soorath Autos — a live vehicle marketplace using React (Vite), Django REST Framework, PostgreSQL, and AWS S3.',
-        'Built Ananta Nethralaya Eye Care Center website — a fully responsive healthcare site using React and Tailwind CSS, now live at anantanethralaya.org.',
-        'Developed Al Afzah Group WLL corporate website — built the complete frontend for a Qatari MEP company, live at al-afzahgroup.com.',
-        'Implemented JWT authentication, role-based access control, PostgreSQL fuzzy search, and full SEO pipelines across client projects.'
-      ],
-      tech: ['React', 'Django REST', 'PostgreSQL', 'AWS S3', 'JWT', 'Tailwind CSS']
-    }
-  ]
-
-  useEffect(() => {
-    const observers = cardRefs.current.map((ref, i) => {
-      if (!ref) return null
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setVisibleCards(prev => [...new Set([...prev, i])])
-          }
-        },
-        { threshold: 0.15 }
-      )
-      obs.observe(ref)
-      return obs
-    })
-    return () => observers.forEach(obs => obs?.disconnect())
-  }, [])
+  const trackRef = useRef(null)
+  const { scrollYProgress } = useScroll({ target: trackRef, offset: ['start 80%', 'end 60%'] })
+  const drawn = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 })
 
   return (
     <div className="work-experience" id="work-section">
       <div className="section-header">
-        <h2 id="work"><strong>Work Experience</strong></h2>
-        <p className="section-subtitle">My professional journey so far</p>
+        <span className="eyebrow">Career Timeline</span>
+        <h2 id="work"><strong>Work <span className="gradient-text">Experience</span></strong></h2>
+        <p className="section-subtitle">A production-tested journey across backend, support and full-stack delivery.</p>
       </div>
 
-      <div className="experience-timeline">
-        {experiences.map((exp, index) => (
-          <div
-            key={index}
-            ref={el => cardRefs.current[index] = el}
-            className={`experience-card ${visibleCards.includes(index) ? 'visible' : ''}`}
-            style={{ animationDelay: `${index * 0.15}s` }}
-          >
-            <div className="card-accent"></div>
-
-            <div className="exp-header">
-              <div>
-                <div className="experience-title">{exp.title}</div>
-                <div className="experience-company">
-                  <i className="fa-solid fa-building"></i> {exp.company}
-                </div>
-                {exp.location && (
-                  <div className="experience-location">
-                    <i className="fa-solid fa-location-dot"></i> {exp.location}
-                  </div>
-                )}
-              </div>
-              <div className="exp-meta-right">
-                <span className={`status-badge status-${exp.statusColor}`}>{exp.badge}</span>
-                <div className="experience-duration">
-                  <i className="fa-solid fa-calendar"></i> {exp.duration}
-                </div>
-              </div>
-            </div>
-
-            <ul className="experience-details">
-              {exp.description.map((detail, idx) => (
-                <li key={idx}>{detail}</li>
-              ))}
-            </ul>
-
-            <div className="tech-stack">
-              {exp.tech.map((t, i) => (
-                <span key={i} className="tech-tag">{t}</span>
-              ))}
-            </div>
-          </div>
-        ))}
+      <div className="timeline" ref={trackRef}>
+        <div className="tl-axis">
+          <div className="tl-axis-bg" />
+          <motion.div className="tl-axis-fill" style={{ scaleY: drawn }} />
+        </div>
+        {experiences.map((exp, i) => <TimelineNode key={i} exp={exp} index={i} />)}
       </div>
     </div>
   )

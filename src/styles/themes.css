@@ -1,0 +1,223 @@
+/* ============================================================
+   themes.css — MASTER MULTI-THEME ENGINE
+   Swapping <html data-theme="x"> instantly re-skins fonts,
+   colours, UI philosophy (radius/border/tracking) and motion.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Jersey+15&family=Fira+Code:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ---------- generic (non-theme) design tokens ---------- */
+:root {
+  --radius-sm: 12px;
+  --radius: 18px;
+  --radius-lg: 28px;
+  --glass-blur: 14px;
+  --space-section: clamp(6rem, 12vh, 10rem);
+  --maxw: 1240px;
+}
+
+/* =====================================================================
+   1 · CYBER  (default) — Jersey 15 + Fira Code · original coral/cyan, enhanced
+   ===================================================================== */
+:root,
+[data-theme='cyber'] {
+  --font-display: 'Jersey 15', 'Segoe UI', sans-serif;
+  --font-body: 'Fira Code', ui-monospace, monospace;
+
+  --bg-primary: #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-card: #101014;
+  --accent-1: #f86f6f;   /* signature coral */
+  --accent-2: #11d1dc;   /* cyan */
+  --accent-3: #a355b9;   /* violet (brightened from #67017a for contrast) */
+  --text-primary: #f0f8ff;
+  --text-secondary: #a9b4c0;
+  --border-color: #f86f6f;
+  --nav-bg: rgba(8,8,10,0.88);
+  --card-shadow: 0 0 30px rgba(248,111,111,0.14);
+  --glow-1: rgba(248,111,111,0.42);
+  --glow-2: rgba(17,209,220,0.38);
+  --gradient-hero:
+    radial-gradient(ellipse at 20% 45%, rgba(248,111,111,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 55%, rgba(17,209,220,0.08) 0%, transparent 60%);
+
+  /* UI philosophy */
+  --ui-radius: 6px;
+  --ui-border-w: 1.5px;
+  --heading-tracking: 0.045em;      /* Jersey 15 breathes with wider tracking */
+  --heading-transform: none;         /* mixed case reads far better in Jersey 15 */
+  --ui-ease: cubic-bezier(0.2, 0, 0, 1);
+  --ui-speed: 0.28s;
+
+  --glass-bg: rgba(255,255,255,0.035);
+  --glass-bg-strong: rgba(255,255,255,0.065);
+  --glass-border: rgba(248,111,111,0.22);
+  --grad-brand: linear-gradient(120deg, var(--accent-1), var(--accent-2));
+  --grad-metric: linear-gradient(120deg, #ffffff, var(--accent-1) 55%, var(--accent-2));
+}
+
+/* =====================================================================
+   2 · NEBULA — Space Grotesk · cosmic · floating / soft
+   ===================================================================== */
+[data-theme='nebula'] {
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Space Grotesk', sans-serif;
+
+  --bg-primary: #040406;
+  --bg-secondary: #08080f;
+  --bg-card: #0b0b16;
+  --accent-1: #6366f1;
+  --accent-2: #a78bfa;
+  --accent-3: #8b5cf6;
+  --text-primary: #f4f4fb;
+  --text-secondary: #9a9ab5;
+  --border-color: #6366f1;
+  --nav-bg: rgba(6,6,12,0.6);
+  --card-shadow: 0 20px 60px -20px rgba(99,102,241,0.4);
+  --glow-1: rgba(99,102,241,0.45);
+  --glow-2: rgba(167,139,250,0.42);
+  --gradient-hero:
+    radial-gradient(60% 55% at 22% 30%, rgba(99,102,241,0.22) 0%, transparent 60%),
+    radial-gradient(50% 50% at 80% 60%, rgba(139,92,246,0.16) 0%, transparent 60%);
+
+  --ui-radius: 24px;                /* floating, pill-soft */
+  --ui-border-w: 1px;
+  --heading-tracking: -0.02em;
+  --heading-transform: none;
+  --ui-ease: cubic-bezier(0.16, 1, 0.3, 1);  /* drift */
+  --ui-speed: 0.9s;
+
+  --glass-bg: rgba(255,255,255,0.035);
+  --glass-bg-strong: rgba(255,255,255,0.06);
+  --glass-border: rgba(255,255,255,0.09);
+  --grad-brand: linear-gradient(120deg, var(--accent-1), var(--accent-2));
+  --grad-metric: linear-gradient(120deg, #fff, var(--accent-2) 55%, var(--accent-1));
+}
+
+/* =====================================================================
+   3 · AURORA — Plus Jakarta Sans · northern lights · fluid
+   ===================================================================== */
+[data-theme='aurora'] {
+  --font-display: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+  --font-body: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+
+  --bg-primary: #04141a;
+  --bg-secondary: #06202a;
+  --bg-card: #072731;
+  --accent-1: #38f9d7;
+  --accent-2: #5eead4;
+  --accent-3: #a78bfa;
+  --text-primary: #eafcf7;
+  --text-secondary: #86b6b3;
+  --border-color: #38f9d7;
+  --nav-bg: rgba(4,20,26,0.55);
+  --card-shadow: 0 20px 50px -20px rgba(56,249,215,0.28);
+  --glow-1: rgba(56,249,215,0.4);
+  --glow-2: rgba(167,139,250,0.4);
+  --gradient-hero:
+    radial-gradient(55% 50% at 25% 25%, rgba(56,249,215,0.16) 0%, transparent 60%),
+    radial-gradient(55% 55% at 78% 70%, rgba(167,139,250,0.16) 0%, transparent 60%);
+
+  --ui-radius: 18px;
+  --ui-border-w: 1px;
+  --heading-tracking: -0.015em;
+  --heading-transform: none;
+  --ui-ease: cubic-bezier(0.45, 0, 0.15, 1);  /* water */
+  --ui-speed: 0.7s;
+
+  --glass-bg: rgba(255,255,255,0.05);
+  --glass-bg-strong: rgba(255,255,255,0.08);
+  --glass-border: rgba(255,255,255,0.12);
+  --grad-brand: linear-gradient(120deg, var(--accent-1), var(--accent-3));
+  --grad-metric: linear-gradient(120deg, #fff, var(--accent-1) 55%, var(--accent-3));
+}
+
+/* =====================================================================
+   4 · EMBER — Syne · brutalist · aggressive springs
+   ===================================================================== */
+[data-theme='ember'] {
+  --font-display: 'Syne', 'Segoe UI', sans-serif;
+  --font-body: 'Syne', 'Segoe UI', sans-serif;
+
+  --bg-primary: #0d0603;
+  --bg-secondary: #170a03;
+  --bg-card: #1c0d04;
+  --accent-1: #ff6b2b;
+  --accent-2: #ffcc00;
+  --accent-3: #ff3d2e;
+  --text-primary: #fff4ea;
+  --text-secondary: #c99b78;
+  --border-color: #ff6b2b;
+  --nav-bg: rgba(13,6,3,0.9);
+  --card-shadow: 0 14px 0 -2px rgba(255,107,43,0.35);  /* hard brutalist drop */
+  --glow-1: rgba(255,107,43,0.5);
+  --glow-2: rgba(255,204,0,0.45);
+  --gradient-hero:
+    radial-gradient(50% 55% at 20% 60%, rgba(255,61,46,0.16) 0%, transparent 55%),
+    radial-gradient(55% 50% at 78% 35%, rgba(255,107,43,0.14) 0%, transparent 55%);
+
+  --ui-radius: 0px;                 /* brutalist — zero radius */
+  --ui-border-w: 2.5px;
+  --heading-tracking: -0.03em;
+  --heading-transform: uppercase;
+  --ui-ease: cubic-bezier(0.16, 1.4, 0.3, 1);  /* high-tension overshoot */
+  --ui-speed: 0.32s;
+
+  --glass-bg: rgba(255,107,43,0.05);
+  --glass-bg-strong: rgba(255,107,43,0.09);
+  --glass-border: rgba(255,107,43,0.32);
+  --grad-brand: linear-gradient(120deg, var(--accent-3), var(--accent-1) 50%, var(--accent-2));
+  --grad-metric: linear-gradient(120deg, var(--accent-2), var(--accent-1) 50%, var(--accent-3));
+}
+
+/* =====================================================================
+   5 · FROST — Inter/Geist · minimalist ICE · crisp fades (LIGHT)
+   ===================================================================== */
+[data-theme='frost'] {
+  --font-display: 'Inter', 'Geist', system-ui, sans-serif;
+  --font-body: 'Inter', 'Geist', system-ui, sans-serif;
+
+  --bg-primary: #f5f7fa;
+  --bg-secondary: #eef1f6;
+  --bg-card: #ffffff;
+  --accent-1: #3b82f6;
+  --accent-2: #06b6d4;
+  --accent-3: #0f172a;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --border-color: #cbd5e1;
+  --nav-bg: rgba(245,247,250,0.72);
+  --card-shadow: 0 10px 30px -14px rgba(15,23,42,0.18);
+  --glow-1: rgba(59,130,246,0.28);
+  --glow-2: rgba(6,182,212,0.24);
+  --gradient-hero:
+    radial-gradient(55% 50% at 22% 30%, rgba(59,130,246,0.08) 0%, transparent 60%),
+    radial-gradient(50% 50% at 80% 65%, rgba(6,182,212,0.06) 0%, transparent 60%);
+
+  --ui-radius: 8px;                 /* crisp, tight */
+  --ui-border-w: 1px;
+  --heading-tracking: -0.02em;
+  --heading-transform: none;
+  --ui-ease: cubic-bezier(0.33, 0, 0.15, 1);   /* icy */
+  --ui-speed: 0.45s;
+
+  --glass-bg: rgba(255,255,255,0.55);
+  --glass-bg-strong: rgba(255,255,255,0.75);
+  --glass-border: rgba(15,23,42,0.08);
+  --grad-brand: linear-gradient(120deg, var(--accent-1), var(--accent-2));
+  --grad-metric: linear-gradient(120deg, var(--accent-3), var(--accent-1) 60%, var(--accent-2));
+}
+
+/* ---------- font + philosophy actually applied ---------- */
+body { font-family: var(--font-body); background-color: var(--bg-primary); color: var(--text-primary); }
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: var(--heading-tracking);
+  text-transform: var(--heading-transform);
+}
+/* theme-driven radius on the shared glass system */
+.glass, .glass-card { border-radius: var(--ui-radius); }
+
+/* Cross-fade the whole canvas when switching themes */
+body, body * { transition: background-color .5s var(--ui-ease), color .4s var(--ui-ease), border-color .4s var(--ui-ease); }
+body .cursor-ring, body .cursor-dot, body [style*='transform'],
+.ambient-orb, .hamburger-line { transition: none; }
